@@ -1,7 +1,3 @@
----
-sidebar: auto
----
-
 # 全局计算属性
 
 在 VuePress 中，内置了一些核心的[计算属性](https://cn.vuejs.org/v2/guide/computed.html#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7)，以供[默认主题](../theme/default-theme-config.md) 或自定义主题使用。
@@ -56,13 +52,17 @@ sidebar: auto
 }
 ```
 
+## $frontmatter
+
+[$page](#page).frontmatter 的引用。
+
 ## $lang
 
 当前页面的语言，默认值为 `en-US`。
 
 **参考:**
 
-- [多语言支持](../guide/i18n.md)
+- [多语言支持](i18n.md)
 
 ## $localePath
 
@@ -70,7 +70,7 @@ sidebar: auto
 
 **参考:**
 
-- [多语言支持](../guide/i18n.md)
+- [多语言支持](i18n.md)
 
 ## $title
 

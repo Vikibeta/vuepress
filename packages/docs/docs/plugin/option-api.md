@@ -215,7 +215,7 @@ module.exports = {
     // Add extra markdown-it plugin
     config
       .plugin('sup')
-        .add(require('markdown-it-sup'))
+        .use(require('markdown-it-sup'))
 
     // Remove internal plugin
     config.plugins.delete('snippet')
@@ -225,7 +225,7 @@ module.exports = {
 
 **Also see:**
 
-- [Internal plugins in VuePress](https://github.com/vuejs/vuepress/blob/next/packages/%40vuepress/core/lib/markdown/index.js)
+- [Internal markdown-it plugins in VuePress](https://github.com/vuejs/vuepress/blob/master/packages/%40vuepress/markdown/index.js)
 - [Config plugins](https://github.com/neutrinojs/webpack-chain#config-plugins)
 
 ## enhanceAppFiles
@@ -287,7 +287,7 @@ import { SOURCE_DIR } from '@dynamic/constans'
 - Type: `Function`
 - Default: `undefined`
 
-A function used to extend or modify the [$page](../miscellaneous/global-computed.md#page) object. This function will be invoking once for each page at compile time.
+A function used to extend or modify the [$page](../guide/global-computed.md#page) object. This function will be invoking once for each page at compile time.
 
 ```js
 module.exports = {
@@ -302,10 +302,10 @@ module.exports = {
       regularPath,         // current page's default link (follow the file hierarchy)
       path,                // current page's real link (use regularPath when permalink does not exist)
     } = $page
-   
+
     // 1. Add extra fields.
     page.xxx = 'xxx'
-    
+
     // 2. Change frontmatter.
     frontmatter.sidebar = 'auto'
   }

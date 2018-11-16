@@ -1,4 +1,4 @@
-/* global VUEPRESS_TEMP_PATH */
+/* global VUEPRESS_TEMP_PATH, CONTENT_LOADING */
 import Vue from 'vue'
 import Router from 'vue-router'
 import dataMixin from './dataMixin'
@@ -7,10 +7,11 @@ import { siteData } from '@internal/siteData'
 import appEnhancers from '@internal/app-enhancers'
 import globalUIComponents from '@internal/global-ui'
 import ClientComputedMixin from '@transform/ClientComputedMixin'
-import Store from './plugins/Store'
+import VuePress from './plugins/VuePress'
 
 // built-in components
-import Content from './components/Content'
+import LoadableContent from './components/Content.vue'
+import Content from './components/Content.js'
 import ContentSlotsDistributor from './components/ContentSlotsDistributor'
 import OutboundLink from './components/OutboundLink.vue'
 import ClientOnly from './components/ClientOnly'
@@ -31,11 +32,16 @@ if (module.hot) {
 Vue.config.productionTip = false
 
 Vue.use(Router)
-Vue.use(Store, '$vuepress')
+Vue.use(VuePress)
 // mixin for exposing $site and $page
 Vue.mixin(dataMixin(ClientComputedMixin, siteData))
 // component for rendering markdown content and setting title etc.
-Vue.component('Content', Content)
+if (CONTENT_LOADING) {
+  Vue.component('Content', LoadableContent)
+} else {
+  Vue.component('Content', Content)
+}
+
 Vue.component('ContentSlotsDistributor', ContentSlotsDistributor)
 Vue.component('OutboundLink', OutboundLink)
 // component for client-only content

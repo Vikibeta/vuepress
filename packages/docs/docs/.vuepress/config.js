@@ -3,6 +3,7 @@ const container = require('markdown-it-container')
 
 module.exports = ctx => ({
   dest: '../../vuepress',
+  contentLoading: true,
   locales: {
     '/': {
       lang: 'en-US',
@@ -108,8 +109,10 @@ function getGuideSidebar (groupA, groupB) {
       title: groupB,
       collapsable: false,
       children: [
+        'frontmatter',
         'permalinks',
-        'markdown-slot'
+        'markdown-slot',
+        'global-computed'
       ]
     }
   ]

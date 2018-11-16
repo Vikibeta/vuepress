@@ -1,8 +1,8 @@
 {
   "name": "@vuepress/markdown",
-  "version": "1.0.0-alpha.18",
+  "version": "1.0.0-alpha.22",
   "description": "markdown for vuepress",
-  "main": "lib/index.js",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -18,7 +18,7 @@
     "markdown"
   ],
   "dependencies": {
-    "@vuepress/shared-utils": "^1.0.0-alpha.18",
+    "@vuepress/shared-utils": "^1.0.0-alpha.22",
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-chain": "^1.2.1",

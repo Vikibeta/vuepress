@@ -1,4 +1,4 @@
-/* global AHL_SIDEBAR_LINK_SELECTOR, AHL_HEADER_ANCHOR_SELECTOR */
+/* global AHL_SIDEBAR_LINK_SELECTOR, AHL_HEADER_ANCHOR_SELECTOR, AHL_TOP_OFFSET */
 
 import throttle from 'lodash.throttle'
 
@@ -35,17 +35,30 @@ function getAnchors () {
       return {
         el,
         hash: decodeURIComponent(el.hash),
-        top: el.getBoundingClientRect().top - 90
-        /* 90 is to Subtract height of navbar & anchor's padding top */
+        top: el.getBoundingClientRect().top - AHL_TOP_OFFSET
+        /* AHL_TOP_OFFSET is to Subtract height of navbar & anchor's padding top */
       }
     })
 }
 
+let freezeScrollEvent = true
+
 export default {
   mounted () {
-    this.$vuepress.$on('AsyncMarkdownContentLoaded', (slotKey) => {
+    this.$router.beforeEach((to, from, next) => {
+      if (to.path !== from.path) {
+        freezeScrollEvent = true
+      }
+      next()
+    })
+
+    this.$vuepress.$on('AsyncMarkdownContentMounted', (slotKey) => {
+      // delay activation of scroll event
+      setTimeout(() => {
+        freezeScrollEvent = false
+      }, 1000)
       if (slotKey === 'default') {
-        window.addEventListener('scroll', this.onScroll)
+        window.addEventListener('scroll', () => this.onScroll(freezeScrollEvent))
       }
     })
 
@@ -66,9 +79,16 @@ export default {
   },
 
   methods: {
-    onScroll: throttle(function () {
+    onScroll: throttle(function (freezeScrollEvent) {
+      if (freezeScrollEvent) {
+        return
+      }
+      const anchors = getAnchors()
+      if (anchors.length === 0) {
+        return
+      }
       this.$lastAnchor = this.$currentAnchor
-      this.$currentAnchor = calculateCurrentAnchor(getAnchors())
+      this.$currentAnchor = calculateCurrentAnchor(anchors)
       if (!this.$lastAnchor || this.$lastAnchor.hash !== this.$currentAnchor.hash) {
         this.$vuepress.$emit('AnchorHashChange', this.$currentAnchor)
       }

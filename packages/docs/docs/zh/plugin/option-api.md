@@ -1,5 +1,5 @@
 ---
-seoTitle: Option API | Plugin
+metaTitle: Option API | Plugin
 ---
 
 # Option API
@@ -229,7 +229,7 @@ module.exports = {
 
 **参考:**
 
-- [VuePress 的内置 markdown-it 插件](https://github.com/vuejs/vuepress/blob/next/packages/%40vuepress/core/lib/markdown/index.js)
+- [VuePress 的内置 markdown-it 插件](https://github.com/vuejs/vuepress/blob/master/packages/%40vuepress/markdown/index.js)
 - [配置插件](https://github.com/neutrinojs/webpack-chain#config-plugins)
 
 ## enhanceAppFiles
@@ -289,7 +289,7 @@ import { SOURCE_DIR } from '@dynamic/constans'
 - 类型: `Function`
 - 默认值: `undefined`
 
-一个函数，用于拓展或者修改 [$page](../miscellaneous/global-computed.md#page) 对象。这个函数将会在编译器为每个页面执行一次。
+一个函数，用于拓展或者修改 [$page](../guide/global-computed.md#page) 对象。这个函数将会在编译器为每个页面执行一次。
 
 ```js
 module.exports = {

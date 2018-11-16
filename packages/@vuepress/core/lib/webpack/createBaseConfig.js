@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const { fs, path, logger, chalk } = require('@vuepress/shared-utils')
+const { fs, path, logger } = require('@vuepress/shared-utils')
 
 /**
  * Expose createBaseConfig method.
@@ -18,6 +18,8 @@ module.exports = function createBaseConfig ({
   themePath,
   markdown,
   tempPath,
+  cacheDirectory,
+  cacheIdentifier,
   cliOptions: {
     debug,
     cache
@@ -73,29 +75,12 @@ module.exports = function createBaseConfig ({
   config.module
     .noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
 
-  let cacheDirectory
-  if (cache && typeof cache === 'string') {
-    cacheDirectory = path.resolve(cache)
-  } else {
-    cacheDirectory = path.resolve(__dirname, '../../node_modules/.cache/vuepress')
-  }
-  logger.debug('\nCache directory: ' + chalk.gray(cacheDirectory))
-  if (!cache) {
+  if (cache === false) {
     logger.tip('\nClean cache...\n')
     fs.emptyDirSync(cacheDirectory)
   }
-  const cacheIdentifier = JSON.stringify({
-    vuepress: require('../../package.json').version,
-    'cache-loader': require('cache-loader/package.json').version,
-    'vue-loader': require('cache-loader/package.json').version,
-    isProd,
-    isServer,
-    config: (
-      (siteConfig.markdown ? JSON.stringify(siteConfig.markdown) : '') +
-      (siteConfig.chainWebpack || '').toString() +
-      (siteConfig.configureWebpack || '').toString()
-    )
-  })
+
+  cacheIdentifier += `isServer:${isServer}`
 
   function applyVuePipeline (rule) {
     rule
@@ -286,7 +271,9 @@ module.exports = function createBaseConfig ({
         styles: {
           name: 'styles',
           // necessary to ensure async chunks are also extracted
-          test: m => /css-extract/.test(m.type),
+          test: m => {
+            return /css\/mini-extract/.test(m.type)
+          },
           chunks: 'all',
           enforce: true
         }
@@ -300,7 +287,8 @@ module.exports = function createBaseConfig ({
     .use(require('webpack/lib/DefinePlugin'), [{
       VUEPRESS_VERSION: JSON.stringify(require('../../package.json').version),
       VUEPRESS_TEMP_PATH: JSON.stringify(tempPath),
-      LAST_COMMIT_HASH: JSON.stringify(getLastCommitHash())
+      LAST_COMMIT_HASH: JSON.stringify(getLastCommitHash()),
+      CONTENT_LOADING: JSON.stringify(siteConfig.contentLoading || false)
     }])
 
   pluginAPI.options.define.apply(config)

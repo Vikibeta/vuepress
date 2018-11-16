@@ -1,8 +1,9 @@
 ---
 title: blog
+metaTitle: Blog 插件 | VuePress
 ---
 
-# @vuepress/plugin-blog
+# [@vuepress/plugin-blog](https://github.com/vuejs/vuepress/tree/master/packages/@vuepress/plugin-blog)
 
 > 博客插件
 
@@ -23,6 +24,11 @@ module.exports = {
 
 ## 选项
 
+### postsDir
+
+- 类型: `string`
+- 默认值: `_posts`
+
 ### categoryIndexPageUrl
 
 - 类型: `string`
@@ -33,3 +39,9 @@ module.exports = {
 - 类型: `string`
 - 默认值: `/tag/`
 
+### permalink
+
+- 类型: `string`
+- 默认值: `/:year/:month/:day/:slug`
+
+为博客文章设置永久链接。详情参考 [Permalinks](/zh/guide/permalinks.html#模板变量)。

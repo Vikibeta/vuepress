@@ -1,8 +1,9 @@
 ---
 title: blog
+metaTitle: Blog Plugin | VuePress
 ---
 
-# @vuepress/plugin-blog
+# [@vuepress/plugin-blog](https://github.com/vuejs/vuepress/tree/master/packages/%40vuepress/plugin-blog)
 
 > Blog plugin
 
@@ -23,6 +24,11 @@ module.exports = {
 
 ## Options
 
+### postsDir
+
+- Type: `string`
+- Default: `_posts`
+
 ### categoryIndexPageUrl
 
 - Type: `string`
@@ -32,3 +38,10 @@ module.exports = {
 
 - Type: `string`
 - Default: `/tag/`
+
+### permalink
+
+- Type: `string`
+- Default: `/:year/:month/:day/:slug`
+
+Configures the permalink generated for blog posts. See [Permalinks](/guide/permalinks.html#template-variables) for a list of valid variables.
